@@ -256,6 +256,18 @@
       "edit_user": "Edit {{ username }} user"
     }
   },
+  "pending_requests": "Registration Requests",
+  "no_pending_requests": "No pending registration requests",
+  "request": {
+    "username": "Username",
+    "email": "Email",
+    "status": "Status",
+    "actions": "Actions",
+    "accept_success": "User request accepted successfully",
+    "accept_error": "Error accepting user request",
+    "reject_success": "User request rejected successfully",
+    "reject_error": "Error rejecting user request"
+  },
   "usergroup": {
     "search_groups": "Search in groups",
     "search_users": "Search in users",
@@ -263,6 +275,34 @@
     "default": {
       "title": "Users & Groups",
       "message": "Here you can view informations about users and groups."
+    },
+    "register_request": "Register New Account",
+    "register": {
+      "username": "Username",
+      "email": "Email Address",
+      "password": "Password",
+      "message": "Additional Message",
+      "submit": "Submit Registration",
+      "success": "Registration request submitted successfully",
+      "error": "Registration failed",
+      "validation": {
+        "username_required": "Username is required",
+        "email_required": "Email is required",
+        "password_required": "Password is required",
+        "password_length": "Password must be at least 8 characters"
+      }
+    },
+    "pending_requests": "Registration Requests",
+    "no_pending_requests": "No pending registration requests",
+    "request": {
+      "username": "Username",
+      "email": "Email",
+      "status": "Status",
+      "actions": "Actions",
+      "accept_success": "User request accepted successfully",
+      "accept_error": "Error accepting user request",
+      "reject_success": "User request rejected successfully",
+      "reject_error": "Error rejecting user request"
     }
   },
   "settings": {

@@ -578,3 +578,12 @@ angular.module('docs',
 if (location.search.indexOf("protractor") > -1) {
   window.name = 'NG_DEFER_BOOTSTRAP!';
 }
+$stateProvider.state('usergroup.request', {
+  url: '/request/:name',
+  views: {
+    'sub': {
+      templateUrl: 'partial/docs/usergroup.request.html',
+      controller: 'UserGroup'
+    }
+  }
+})

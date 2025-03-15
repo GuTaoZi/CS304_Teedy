@@ -45,6 +45,172 @@
         <span class="fas fa-user"></span>
       </div>
     </div>
+
+        <!-- Registration request section - only show for non-authenticated users and guests -->
+        <div class="well well-3d" ng-if="userInfo.username=='guest'">
+          <h4 class="text-center">{{ 'usergroup.register_request' | translate }}</h4>
+          
+          <!-- Registration form -->
+          <form name="registerForm" novalidate>
+            <div class="form-group" ng-class="{ 'has-error': registerForm.name.$invalid && registerForm.$dirty }">
+              <label for="inputName">{{ 'usergroup.register.username' | translate }}</label>
+              <input type="text" class="form-control" id="inputName" name="name"
+                     ng-model="register.name" required
+                     ng-pattern="/^[a-zA-Z0-9_@.-]*$/"
+                     ng-minlength="3" ng-maxlength="50">
+              <span class="help-block" ng-show="registerForm.name.$error.required && registerForm.$dirty">
+                {{ 'validation.required' | translate }}
+              </span>
+            </div>
+    
+            <div class="form-group" ng-class="{ 'has-error': registerForm.email.$invalid && registerForm.$dirty }">
+              <label for="inputEmail">{{ 'usergroup.register.email' | translate }}</label>
+              <input type="email" class="form-control" id="inputEmail" name="email"
+                     ng-model="register.email" required>
+              <span class="help-block" ng-show="registerForm.email.$error.required && registerForm.$dirty">
+                {{ 'validation.required' | translate }}
+              </span>
+            </div>
+    
+            <div class="form-group" ng-class="{ 'has-error': registerForm.password.$invalid && registerForm.$dirty }">
+              <label for="inputPassword">{{ 'usergroup.register.password' | translate }}</label>
+              <input type="password" class="form-control" id="inputPassword" name="password"
+                     ng-model="register.password" required
+                     ng-minlength="8" ng-maxlength="50">
+              <span class="help-block" ng-show="registerForm.password.$error.required && registerForm.$dirty">
+                {{ 'validation.required' | translate }}
+              </span>
+            </div>
+    
+            <div class="form-group">
+              <label for="inputMessage">{{ 'usergroup.register.message' | translate }}</label>
+              <textarea class="form-control" id="inputMessage" name="message"
+                       ng-model="register.message" rows="3"></textarea>
+            </div>
+    
+            <button type="submit" class="btn btn-primary btn-block"
+                    ng-click="submitRegisterRequest()"
+                    ng-disabled="registerForm.$invalid">
+              {{ 'usergroup.register.submit' | translate }}
+            </button>
+          </form>
+    
+          <!-- Request History Section -->
+          <div ng-if="userRequests && userRequests.length > 0">
+            <h5 class="text-center">{{ 'usergroup.request.history' | translate }}</h5>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>{{ 'usergroup.request.status' | translate }}</th>
+                  <th>{{ 'usergroup.request.email' | translate }}</th>
+                  <th>{{ 'usergroup.request.message' | translate }}</th>
+                  <th>{{ 'usergroup.request.date' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="request in userRequests">
+                  <td>
+                    <span class="label" ng-class="{
+                      'label-warning': request.status === 'PENDING',
+                      'label-success': request.status === 'ACCEPTED',
+                      'label-danger': request.status === 'REJECTED'
+                    }">{{ request.status }}</span>
+                  </td>
+                  <td>{{ request.email }}</td>
+                  <td>{{ request.message || 'usergroup.request.no_message' | translate }}</td>
+                  <td>{{ request.create_date | date:'medium' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+    
+          <!-- Alert messages -->
+          <div uib-alert ng-repeat="alert in alerts" 
+               ng-class="'alert-' + alert.type" 
+               close="closeAlert($index)">
+            {{alert.msg}}
+          </div>
+        </div>
+
+        <!-- Admin Pending Requests Section -->
+        <div class="well well-3d" ng-if="userInfo.base_functions.indexOf('ADMIN') !== -1">
+            <h4 class="text-center">{{ 'usergroup.pending_requests' | translate }}</h4>
+            
+            <!-- Pending Requests Table -->
+            <div ng-if="pendingRequests.length === 0" class="text-center text-muted">
+                {{ 'usergroup.no_pending_requests' | translate }}
+            </div>
+    
+            <table class="table table-hover" ng-if="pendingRequests.length > 0">
+                <thead>
+                    <tr>
+                        <th>{{ 'usergroup.request.username' | translate }}</th>
+                        <th>{{ 'usergroup.request.email' | translate }}</th>
+                        <th>{{ 'usergroup.request.status' | translate }}</th>
+                        <th>{{ 'usergroup.request.actions' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="request in pendingRequests">
+                        <td><a href ng-click="viewRequest(request)">{{ request.name }}</a></td>
+                        <td>{{ request.email }}</td>
+                        <td>
+                            <span class="label" ng-class="{
+                                'label-warning': request.status === 'PENDING',
+                                'label-success': request.status === 'ACCEPTED',
+                                'label-danger': request.status === 'REJECTED'
+                            }">{{ request.status }}</span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-xs">
+                                <button class="btn btn-success" ng-click="handleRequest(request, 'accept')"
+                                        ng-if="request.status === 'PENDING'" title="{{ 'usergroup.request.accept' | translate }}">
+                                    <span class="fas fa-check"></span>
+                                </button>
+                                <button class="btn btn-danger" ng-click="handleRequest(request, 'reject')"
+                                        ng-if="request.status === 'PENDING'" title="{{ 'usergroup.request.reject' | translate }}">
+                                    <span class="fas fa-times"></span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- Registration History Section -->
+            <h4 class="text-center mt-4">{{ 'usergroup.request.history' | translate }}</h4>
+            <div style="max-height: 400px; overflow-y: auto;">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>{{ 'usergroup.request.username' | translate }}</th>
+                            <th>{{ 'usergroup.request.email' | translate }}</th>
+                            <th>{{ 'usergroup.request.status' | translate }}</th>
+                            <th>{{ 'usergroup.request.message' | translate }}</th>
+                            <th>{{ 'usergroup.request.date' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="request in requestHistory">
+                            <td>{{ request.name }}</td>
+                            <td>{{ request.email }}</td>
+                            <td>
+                                <span class="label" ng-class="{
+                                    'label-warning': request.status === 'PENDING',
+                                    'label-success': request.status === 'ACCEPTED',
+                                    'label-danger': request.status === 'REJECTED'
+                                }">{{ request.status }}</span>
+                            </td>
+                            <td>
+                                <span ng-if="request.message">{{ request.message }}</span>
+                                <span ng-if="!request.message" class="text-muted">{{ 'usergroup.request.no_message' | translate }}</span>
+                            </td>
+                            <td>{{ request.create_date | date:'medium' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
   </div>
 
   <div class="col-md-8">

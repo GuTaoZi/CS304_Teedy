@@ -299,10 +299,16 @@
       "email": "Email",
       "status": "Status",
       "actions": "Actions",
+      "message": "Message",
+      "date": "Request Date",
+      "no_message": "No message",
       "accept_success": "User request accepted successfully",
       "accept_error": "Error accepting user request",
       "reject_success": "User request rejected successfully",
-      "reject_error": "Error rejecting user request"
+      "reject_error": "Error rejecting user request",
+      "history": "Register History",
+      "show_history": "Show history requests",
+      "hide_history": "Hide history requests"
     }
   },
   "settings": {

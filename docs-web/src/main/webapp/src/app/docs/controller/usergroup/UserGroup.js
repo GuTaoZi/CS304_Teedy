@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('docs').controller('UserGroup', function(Restangular, $scope, $state, $translate) {
+angular.module('docs').controller('UserGroup', function(Restangular, $scope, $state, $translate, $uibModal) {
   // Load users
   Restangular.one('user/list').get({
     sort_column: 1,
@@ -72,6 +72,16 @@ angular.module('docs').controller('UserGroup', function(Restangular, $scope, $st
   // Load pending requests for admin
   // Load pending requests and history for admin
   if ($scope.userInfo && $scope.userInfo.base_functions.indexOf('ADMIN') !== -1) {
+      $scope.showHistory = false;
+      
+      $scope.toggleHistory = function() {
+          $scope.showHistory = !$scope.showHistory;
+          // Force a digest cycle
+          if (!$scope.$$phase) {
+              $scope.$apply();
+          }
+      };
+      
       // Load pending requests
       Restangular.one('user_request/pending').get().then(function(data) {
           $scope.pendingRequests = data.requests;
@@ -116,5 +126,25 @@ angular.module('docs').controller('UserGroup', function(Restangular, $scope, $st
                   msg: e.data.message || $translate.instant('usergroup.request.' + action + '_error')
               });
           });
+  };
+  
+  // Add to the existing controller
+  // Update the showMessageModal function
+  $scope.showMessageModal = function(request) {
+    $uibModal.open({
+      templateUrl: 'requestMessage.html',
+      size: 'md',
+      controller: function($scope, $uibModalInstance, message) {
+        $scope.message = message;
+        $scope.close = function() {
+          $uibModalInstance.dismiss('close');
+        };
+      },
+      resolve: {
+        message: function() {
+          return request.message;
+        }
+      }
+    });
   };
 });

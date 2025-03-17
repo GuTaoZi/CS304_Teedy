@@ -193,6 +193,9 @@ public class RouteModelResource extends BaseResource {
                             throw new ClientException("ValidationError", targetName + " is not a valid group");
                         }
                         break;
+                    case SHARE:
+                        // No validation needed for SHARE type
+                        break;
                 }
 
                 // Transitions

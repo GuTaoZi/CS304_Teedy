@@ -8,6 +8,8 @@ import com.sismics.docs.core.model.jpa.User;
 
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 /**
  * Security utilities.
  *
@@ -48,5 +50,15 @@ public class SecurityUtil {
      */
     public static boolean skipAclCheck(List<String> targetIdList) {
         return targetIdList.contains("admin") || targetIdList.contains("administrators");
+    }
+
+    /**
+     * Hash a password using BCrypt.
+     *
+     * @param password Plain text password
+     * @return Hashed password
+     */
+    public static String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 }

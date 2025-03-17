@@ -232,6 +232,37 @@
     "default": {
       "title": "用户 & 群组",
       "message": "此处您可以浏览用户和群组信息."
+    },
+    "register_request": "注册新账户",
+    "register": {
+      "username": "用户名",
+      "email": "电子邮箱",
+      "password": "密码",
+      "message": "附加信息",
+      "submit": "提交注册",
+      "success": "注册申请已成功提交",
+      "error": "注册失败",
+      "validation": {
+        "username_required": "请输入用户名",
+        "email_required": "请输入电子邮箱",
+        "password_required": "请输入密码",
+        "password_length": "密码长度至少为8个字符"
+      }
+    },
+    "pending_requests": "注册申请",
+    "no_pending_requests": "暂无待处理的注册申请",
+    "request": {
+      "username": "用户名",
+      "email": "电子邮箱",
+      "status": "状态",
+      "actions": "操作",
+      "message": "消息",
+      "date": "申请日期",
+      "no_message": "无消息",
+      "accept_success": "用户申请已成功接受",
+      "accept_error": "接受用户申请时出错",
+      "reject_success": "用户申请已成功拒绝",
+      "reject_error": "拒绝用户申请时出错"
     }
   },
   "settings": {

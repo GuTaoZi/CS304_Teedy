@@ -12,7 +12,7 @@ pipeline {
 
         // Kubernetes deployment variables
         DEPLOYMENT_NAME = "teedy" 
-        CONTAINER_NAME = "docs"
+        CONTAINER_NAME = "teedy"
         IMAGE_NAME = "gutaozi/teedy"
     }
 
